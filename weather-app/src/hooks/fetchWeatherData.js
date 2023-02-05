@@ -1,5 +1,4 @@
 const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
-// const API_HOST = "https://weatherapi-com.p.rapidapi.com";
 
 async function fetchWeather(city) {
   try {
@@ -13,7 +12,14 @@ async function fetchWeather(city) {
       }
     );
     const data = await response.json();
-    return data;
+    return {
+      name: data.location.name,
+      region: data.location.region,
+      country: data.location.country,
+      temp_c: data.current.temp_c,
+      wind_kph: data.current.wind_kph,
+      humidity: data.current.humidity,
+    };
   } catch (error) {
     console.error(error);
     return error;

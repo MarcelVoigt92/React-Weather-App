@@ -1,62 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import fetchWeather from "../hooks/fetchWeatherData";
+import { MdDarkMode } from "react-icons/md";
 import "../styles/WeatherApp.css";
 
-const WeatherApp = () => {
+function WeatherApp() {
   const [location, setLocation] = useState("");
   const [weatherData, setWeatherData] = useState({});
   const [error, setError] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!location) return;
+  const handleChange = (event) => {
+    setLocation(event.target.value);
+  };
 
+  const handleDarkModeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setWeatherData({});
+
+    try {
       const data = await fetchWeather(location);
       if (data.error) {
         setError(data.error.message);
       } else {
         setWeatherData(data);
       }
-    };
-
-    fetchData();
-  }, [location]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setLocation(event.target.elements.location.value);
-    setWeatherData({});
-    setError("");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div className="WeatherApp">
-      <h1 className="WeatherApp-title">Weather App</h1>
-      <form className="WeatherApp-form" onSubmit={handleSubmit}>
+    <div className={`weather-app ${isDarkMode ? "dark" : "light"}`}>
+      <h1 className=".weather-app-title ">Weather App</h1>
+      <form className="weather-app-form" onSubmit={handleSubmit}>
         <input
-          className="WeatherApp-input"
           type="text"
-          placeholder="Enter city name"
+          placeholder="Enter a location"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          onChange={handleChange}
+          className="weather-app-input"
         />
-        <button className="WeatherApp-button" type="submit">
+        <button className="weather-app-button" type="submit">
           Search
         </button>
       </form>
-      {/* {error && <div className="WeatherApp-error">{error}</div>} */}
-      {weatherData.location && (
-        <div className="WeatherApp-info">
-          <p>
-            Location: {weatherData.location.name},{" "}
-            {weatherData.location.country}
-          </p>
-          <p>Temperature: {weatherData.current.temp_c}°C</p>
-          <p>Conditions: {weatherData.current.condition.text}</p>
+      {error && <div className="error">{error}</div>}
+      {weatherData.name && (
+        <div className="weather-data">
+          <div className="weather-app-info">
+            Location: {weatherData.name} <br /> {weatherData.region},
+            <br />
+            {weatherData.country}
+          </div>
+          <div className="weather-app-info">
+            Temperature: {weatherData.temp_c}°C
+          </div>
+          <div className="weather-app-info">
+            Wind: {weatherData.wind_kph} kph
+          </div>
+          <div className="weather-app-info">
+            Humidity: {weatherData.humidity}%
+          </div>
         </div>
       )}
+      <button className="dark-mode-toggle" onClick={handleDarkModeToggle}>
+        {isDarkMode ? "Light Mode" : "Dark Mode"}
+      </button>
     </div>
   );
-};
+}
 
 export default WeatherApp;
