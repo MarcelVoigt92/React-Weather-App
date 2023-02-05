@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import fetchWeather from "../hooks/fetchWeatherData";
 import { MdDarkMode } from "react-icons/md";
 import "../styles/WeatherApp.css";
+import TypeWriter from "./TypeWriter";
 
 function WeatherApp() {
   const [location, setLocation] = useState("");
@@ -36,7 +37,7 @@ function WeatherApp() {
 
   return (
     <div className={`weather-app ${isDarkMode ? "dark" : "light"}`}>
-      <h1 className=".weather-app-title ">Weather App</h1>
+      <TypeWriter />
       <form className="weather-app-form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -52,20 +53,17 @@ function WeatherApp() {
       {error && <div className="error">{error}</div>}
       {weatherData.name && (
         <div className="weather-data">
-          <div className="weather-app-info">
-            Name: {weatherData.name} <br /> Region: {weatherData.region},
-            <br />
-            Country: {weatherData.country}
+          <div className="weather-app-info" data-label="Name">
+            {weatherData.name}, {weatherData.region}, {weatherData.country}
           </div>
-          <div className="weather-app-info">
-            Temperature in celsius : {weatherData.temp_c}°C <br /> Temperature
-            in fahrenheit : {weatherData.temp_f}°F
+          <div className="weather-app-info" data-label="Temperature">
+            {weatherData.temp_c}°C, {weatherData.temp_f}°F
           </div>
-          <div className="weather-app-info">
-            Wind: {weatherData.wind_kph} kph
+          <div className="weather-app-info" data-label="Wind">
+            {weatherData.wind_kph} kph
           </div>
-          <div className="weather-app-info">
-            Humidity: {weatherData.humidity}%
+          <div className="weather-app-info" data-label="Humidity">
+            {weatherData.humidity}%
           </div>
         </div>
       )}

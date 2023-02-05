@@ -7,10 +7,45 @@
   padding: 1em;
 }
 
+.weather-data {
+  display: table;
+  width: 40%;
+  text-align: left;
+  box-shadow: 0px 0px 10px 2px #1c2331;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.weather-app-info {
+  display: table-row;
+}
+
+.weather-app-info::before {
+  content: attr(data-label) ": ";
+  font-weight: bold;
+  display: table-cell;
+}
+.weather-data [class^="weather-app-info"]:first-child::before {
+  content: "Name";
+}
+
+.weather-data .weather-app-info:nth-child(2)::before {
+  content: "Temperature";
+}
+
+.weather-data .weather-app-info:nth-child(3)::before {
+  content: "Wind";
+}
+
+.weather-data .weather-app-info:nth-child(4)::before {
+  content: "Humidity";
+}
+
 .weather-app-title {
-  color: #1c2331;
-  font-size: 2em;
-  margin-bottom: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 11ch;
+  animation: type 4s steps(30, end);
 }
 
 .weather-app-form {
@@ -45,7 +80,6 @@
 }
 
 .weather-app-info {
-  color: #1c2331;
   font-size: 1.5em;
 }
 
@@ -68,4 +102,10 @@
   padding: 0.5em 1em;
   font-size: 1em;
   cursor: pointer;
+}
+
+@keyframes type {
+  from {
+    width: 0;
+  }
 }
