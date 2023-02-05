@@ -17,6 +17,7 @@ async function fetchWeather(city) {
       region: data.location.region,
       country: data.location.country,
       temp_c: data.current.temp_c,
+      temp_f: data.current.temp_f,
       wind_kph: data.current.wind_kph,
       humidity: data.current.humidity,
     };

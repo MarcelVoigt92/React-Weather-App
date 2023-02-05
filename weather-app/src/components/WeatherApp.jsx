@@ -53,12 +53,13 @@ function WeatherApp() {
       {weatherData.name && (
         <div className="weather-data">
           <div className="weather-app-info">
-            Location: {weatherData.name} <br /> {weatherData.region},
+            Name: {weatherData.name} <br /> Region: {weatherData.region},
             <br />
-            {weatherData.country}
+            Country: {weatherData.country}
           </div>
           <div className="weather-app-info">
-            Temperature: {weatherData.temp_c}°C
+            Temperature in celsius : {weatherData.temp_c}°C <br /> Temperature
+            in fahrenheit : {weatherData.temp_f}°F
           </div>
           <div className="weather-app-info">
             Wind: {weatherData.wind_kph} kph
