@@ -1,77 +1,79 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import fetchWeather from "../hooks/fetchWeatherData";
-import { MdDarkMode } from "react-icons/md";
-import "../styles/WeatherApp.css";
-import TypeWriter from "./TypeWriter";
+import "./WeatherApp.css";
 
-function WeatherApp() {
-  const [location, setLocation] = useState("");
-  const [weatherData, setWeatherData] = useState({});
-  const [error, setError] = useState("");
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const handleChange = (event) => {
-    setLocation(event.target.value);
-  };
-
-  const handleDarkModeToggle = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+function WeatherDisplay() {
+  const [city, setCity] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
-    setWeatherData({});
-
+    if (!city) {
+      setError("Please enter a city name.");
+      setWeatherData(null);
+      return;
+    }
     try {
-      const data = await fetchWeather(location);
-      if (data.error) {
-        setError(data.error.message);
-      } else {
-        setWeatherData(data);
-      }
+      const data = await fetchWeather(city);
+      setWeatherData(data);
+      setError(null);
     } catch (error) {
-      console.error(error);
+      setWeatherData(null);
+      setError(error.message);
     }
   };
 
+  const handleInputChange = (event) => {
+    setCity(event.target.value);
+  };
+
+  const renderIcon = (icon) => {
+    const url = `http://openweathermap.org/img/w/${icon}.png`;
+    return <img src={url} alt="weather icon" />;
+  };
+
   return (
-    <div className={`weather-app ${isDarkMode ? "dark" : "light"}`}>
-      <TypeWriter />
-      <form className="weather-app-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter a location"
-          value={location}
-          onChange={handleChange}
-          className="weather-app-input"
-        />
-        <button className="weather-app-button" type="submit">
-          Search
-        </button>
+    <div>
+      <form className="form" onSubmit={handleSubmit}>
+        <label>
+          City:
+          <input type="text" value={city} onChange={handleInputChange} />
+        </label>
+        <button type="submit">Fetch Weather</button>
       </form>
-      {error && <div className="error">{error}</div>}
-      {weatherData.name && (
-        <div className="weather-data">
-          <div className="weather-app-info" data-label="Name">
-            {weatherData.name}, {weatherData.region}, {weatherData.country}
-          </div>
-          <div className="weather-app-info" data-label="Temperature">
-            {weatherData.temp_c}°C, {weatherData.temp_f}°F
-          </div>
-          <div className="weather-app-info" data-label="Wind">
-            {weatherData.wind_kph} kph
-          </div>
-          <div className="weather-app-info" data-label="Humidity">
-            {weatherData.humidity}%
-          </div>
+      {error && <div>Error: {error}</div>}
+      {weatherData && weatherData.city?.name && (
+        <div className="weather">
+          <h2>
+            {weatherData.city.name}, {weatherData.city.country}
+          </h2>
+          <p>
+            Temperature: {weatherData.temperature.value} °C (min:{" "}
+            {weatherData.temperature.min} °C, max: {weatherData.temperature.max}{" "}
+            °C)
+          </p>
+          <p>Feels like: {weatherData.feels_like.value} °C</p>
+          <p>Humidity: {weatherData.humidity.value} %</p>
+          <p>Pressure: {weatherData.pressure.value} hPa</p>
+          <p>
+            Wind: {weatherData.wind.speed.value} {weatherData.wind.speed.unit}
+          </p>
+          <p>Clouds: {weatherData.clouds.value} %</p>
+          <p>Visibility: {weatherData.visibility.value} m</p>
+          <p>
+            Precipitation: {weatherData.precipitation.value} mm (
+            {weatherData.precipitation.mode})
+          </p>
+          <p>
+            Weather: {weatherData.weather.value}{" "}
+            {renderIcon(weatherData.weather.icon)}
+          </p>
+          <p>Last updated: {weatherData.lastupdate.value.toLocaleString()}</p>
         </div>
       )}
-      <button className="dark-mode-toggle" onClick={handleDarkModeToggle}>
-        {isDarkMode ? "Light Mode" : "Dark Mode"}
-      </button>
     </div>
   );
 }
 
-export default WeatherApp;
+export default WeatherDisplay;
