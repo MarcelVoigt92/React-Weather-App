@@ -1,111 +1,61 @@
-.weather-app {
-  background-color: #e8e8e8;
+form {
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
-  padding: 1em;
+  margin-bottom: 20px;
 }
 
-.weather-data {
-  display: table;
-  width: 40%;
-  text-align: left;
-  box-shadow: 0px 0px 10px 2px #1c2331;
-  border-radius: 15px;
+.form label {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.form input {
   padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 
-.weather-app-info {
-  display: table-row;
-}
-
-.weather-app-info::before {
-  content: attr(data-label) ": ";
-  font-weight: bold;
-  display: table-cell;
-}
-.weather-data [class^="weather-app-info"]:first-child::before {
-  content: "Name";
-}
-
-.weather-data .weather-app-info:nth-child(2)::before {
-  content: "Temperature";
-}
-
-.weather-data .weather-app-info:nth-child(3)::before {
-  content: "Wind";
-}
-
-.weather-data .weather-app-info:nth-child(4)::before {
-  content: "Humidity";
-}
-
-.weather-app-title {
-  overflow: hidden;
-  white-space: nowrap;
-  width: 11ch;
-  animation: type 2s steps(30, end);
-}
-
-.weather-app-form {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1em;
-}
-
-.weather-app-input {
-  background-color: #fff;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  padding: 0.5em;
-  font-size: 1em;
-  width: 30em;
-  margin-right: 1em;
-}
-
-.weather-app-button {
-  background-color: #1c2331;
+.form button {
+  background-color: #4caf50;
   color: #fff;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  padding: 0.5em 1em;
-  font-size: 1em;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-.weather-app-error {
-  color: red;
-  margin-bottom: 1em;
+.form button:hover {
+  background-color: #3e8e41;
 }
 
-.weather-app-info {
-  font-size: 1.5em;
+.error {
+  color: #f00;
+  margin-bottom: 10px;
 }
 
-.weather-app.dark {
-  background-color: #333;
-  color: #fff;
+.weather {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-.weather-app.light {
-  background-color: #fff;
-  color: #333;
+.weather h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-.dark-mode-toggle {
-  position: fixed;
-  top: 50px;
-  right: 50px;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5em 1em;
-  font-size: 1em;
-  cursor: pointer;
+.weather p {
+  margin-bottom: 10px;
+  font-size: 16px;
 }
 
-@keyframes type {
-  from {
-    width: 0;
-  }
+.weather img {
+  width: 50px;
+  height: 50px;
 }

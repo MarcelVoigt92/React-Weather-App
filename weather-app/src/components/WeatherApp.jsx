@@ -1,6 +1,6 @@
 import { useState } from "react";
 import fetchWeather from "../hooks/fetchWeatherData";
-import "./WeatherApp.css";
+import "../styles/WeatherApp.css";
 
 function WeatherDisplay() {
   const [city, setCity] = useState("");
