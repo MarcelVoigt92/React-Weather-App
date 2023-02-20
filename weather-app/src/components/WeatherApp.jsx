@@ -35,6 +35,7 @@ function WeatherDisplay() {
 
   return (
     <div>
+      <h1 className="heading">Weather App</h1>
       <form className="form" onSubmit={handleSubmit}>
         <label>
           City:
